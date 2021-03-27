@@ -1,8 +1,10 @@
 package io.github.nosequel.scoreboard;
 
 import io.github.nosequel.scoreboard.element.ScoreboardElementHandler;
+import io.github.nosequel.scoreboard.listener.PlayerListener;
 import io.github.nosequel.scoreboard.thread.ScoreboardRunnable;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
@@ -22,7 +24,9 @@ public class ScoreboardHandler {
         this.handler = elementHandler;
         this.adapter = new ScoreboardAdapter();
 
-        new ScoreboardRunnable(this).runTaskTimer(plugin, 0L, delay);
-    }
+        new ScoreboardRunnable(this).runTaskTimer(plugin, 10L, delay);
 
+        // listener registration
+        Bukkit.getPluginManager().registerEvents(new PlayerListener(this), plugin);
+    }
 }

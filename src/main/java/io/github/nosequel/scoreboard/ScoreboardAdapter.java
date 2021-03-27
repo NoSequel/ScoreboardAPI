@@ -2,6 +2,7 @@ package io.github.nosequel.scoreboard;
 
 import io.github.nosequel.scoreboard.element.ScoreboardElement;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -84,6 +85,18 @@ public class ScoreboardAdapter {
      */
     public void removeElement(Player player, Scoreboard scoreboard) {
         this.identifiers.get(player).forEach(scoreboard::resetScores);
+    }
+
+    /**
+     * Get the scoreboard of a player
+     *
+     * @param player the player to get the scoreboard by
+     * @return the scoreboard
+     */
+    public Scoreboard getScoreboard(Player player) {
+        return player.getScoreboard() == null || player.getScoreboard().equals(Bukkit.getScoreboardManager().getMainScoreboard())
+                ? Bukkit.getScoreboardManager().getNewScoreboard()
+                : player.getScoreboard();
     }
 
     /**
