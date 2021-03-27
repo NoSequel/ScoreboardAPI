@@ -25,13 +25,15 @@ public class ScoreboardAdapter {
      * @param player  the player to send it to
      * @param element the element to send
      */
-    public void handleElement(Player player, Scoreboard board, ScoreboardElement element) {
+    public void handleElement(Player player, ScoreboardElement element) {
         if(!this.identifiers.containsKey(player)) {
             this.identifiers.put(player, new ArrayList<>());
         }
 
         final List<String> lines = element.getLines();
         final List<String> identifiers = this.identifiers.get(player);
+
+        final Scoreboard board = this.getScoreboard(player);
         final Objective objective = this.getObjective(board);
 
         int lastIndex = 0;

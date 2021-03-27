@@ -18,7 +18,7 @@ public class ScoreboardRunnable extends BukkitRunnable {
             final ScoreboardElement element = this.handler.getHandler().getElement(player);
 
             if (!element.getLines().isEmpty()) {
-                this.handler.getAdapter().handleElement(player, this.handler.getAdapter().getScoreboard(player), element);
+                this.handler.getAdapter().handleElement(player, element);
             }
         }
     }
