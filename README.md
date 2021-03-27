@@ -1,6 +1,6 @@
 <img src="https://i.imgur.com/vqe3G8d.png" width="50%" align="right">
 <h1 align="center">Scoreboard API</h1>
-<p align="center">is an opensource scoreboard API made for the Spigot API.</p><br>
+<p align="center">is an opensource scoreboard API made for Spigot, and is still heavily in development</p><br>
 
 # Todo
 - Clean up parts of the code
