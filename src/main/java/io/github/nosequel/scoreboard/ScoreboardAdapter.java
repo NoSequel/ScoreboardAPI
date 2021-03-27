@@ -26,7 +26,7 @@ public class ScoreboardAdapter {
      * @param element the element to send
      */
     public void handleElement(Player player, ScoreboardElement element) {
-        if(!this.identifiers.containsKey(player)) {
+        if (!this.identifiers.containsKey(player)) {
             this.identifiers.put(player, new ArrayList<>());
         }
 
@@ -36,36 +36,30 @@ public class ScoreboardAdapter {
         final Scoreboard board = this.getScoreboard(player);
         final Objective objective = this.getObjective(board);
 
-        int lastIndex = 0;
-
-        for (String line : lines) {
-            final int index = lines.indexOf(line);
+        for(int index = 0; index < 16; index++) {
             final String identifier = ChatColor.values()[index].toString() + ChatColor.WHITE;
 
-            final Team team = this.getTeam(board, identifier);
-            final String[] splitText = this.splitText(line);
+            if(lines.size()-1 < index) {
+                if (objective.getScore(identifier) == null) {
+                    break;
+                }
 
-            team.setPrefix(splitText[0]);
-            team.setSuffix(splitText[1]);
+                this.removeEntry(board, identifier);
+            } else {
+                final String line = lines.get(index);
 
-            identifiers.add(identifier);
-            objective.getScore(identifier).setScore(-index);
+                final Team team = this.getTeam(board, identifier);
+                final String[] splitText = this.splitText(line);
 
-            lastIndex = index+1;
-        }
+                team.setPrefix(splitText[0]);
+                team.setSuffix(splitText[1]);
 
-        for(int index = -lastIndex; index > -16; index--) {
-            final String identifier = ChatColor.values()[-index].toString() + ChatColor.WHITE;
-
-            if(objective.getScore(identifier) == null) {
-                break;
+                identifiers.add(identifier);
+                objective.getScore(identifier).setScore(-index);
             }
-
-            this.removeEntry(board, identifier);
         }
 
         objective.setDisplayName(element.getTitle());
-
         player.setScoreboard(board);
     }
 
@@ -110,7 +104,7 @@ public class ScoreboardAdapter {
     private Objective getObjective(Scoreboard scoreboard) {
         Objective objective = scoreboard.getObjective("boardHandler");
 
-        if(objective == null) {
+        if (objective == null) {
             objective = scoreboard.registerNewObjective("boardHandler", "dummy");
             objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         }
@@ -130,7 +124,7 @@ public class ScoreboardAdapter {
                 ? scoreboard.registerNewTeam(identifier)
                 : scoreboard.getTeam(identifier);
 
-        if(team.getEntries().isEmpty() || !team.getEntries().contains(identifier)) {
+        if (team.getEntries().isEmpty() || !team.getEntries().contains(identifier)) {
             team.addEntry(identifier);
         }
 
@@ -151,9 +145,15 @@ public class ScoreboardAdapter {
             final String right = text.substring(16);
 
             if (left.endsWith("§")) {
-                return new String[]{left.substring(0, left.toCharArray().length - 1), StringUtils.left(ChatColor.getLastColors(left) + "§" + right, 16)};
+                return new String[]{
+                        left.substring(0, left.toCharArray().length - 1),
+                        StringUtils.left(ChatColor.getLastColors(left) + "§" + right, 16)
+                };
             } else {
-                return new String[]{left, StringUtils.left(ChatColor.getLastColors(left) + right, 16)};
+                return new String[]{
+                        left,
+                        StringUtils.left(ChatColor.getLastColors(left) + right, 16)
+                };
             }
         }
     }
