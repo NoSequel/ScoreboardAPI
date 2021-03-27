@@ -1,0 +1,3 @@
+name: ScoreboardTest
+version: 1.0-SNAPSHOT
+main: io.github.nosequel.testing.ScoreboardTestPlugin
