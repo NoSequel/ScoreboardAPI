@@ -1,7 +1,6 @@
 package io.github.nosequel.scoreboard.thread;
 
 import io.github.nosequel.scoreboard.ScoreboardHandler;
-import io.github.nosequel.scoreboard.element.ScoreboardElement;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -15,11 +14,7 @@ public class ScoreboardRunnable extends BukkitRunnable {
     @Override
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            final ScoreboardElement element = this.handler.getHandler().getElement(player);
-
-            if (!element.getLines().isEmpty()) {
-                this.handler.getAdapter().handleElement(player, element);
-            }
+            this.handler.getAdapter().handleElement(player, this.handler.getHandler().getElement(player));
         }
     }
 }
