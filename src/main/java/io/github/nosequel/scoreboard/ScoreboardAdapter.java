@@ -36,37 +36,34 @@ public class ScoreboardAdapter {
         final Scoreboard board = this.getScoreboard(player);
         final Objective objective = this.getObjective(board);
 
-        if (lines.isEmpty()) {
-            player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-        } else {
 
-            for (int index = 0; index < 16; index++) {
-                final String identifier = ChatColor.values()[index].toString() + ChatColor.WHITE;
+        for (int index = 0; index < 16; index++) {
+            final String identifier = ChatColor.values()[index].toString() + ChatColor.WHITE;
 
-                if (lines.size() - 1 < index) {
-                    if (objective.getScore(identifier) == null) {
-                        break;
-                    }
-
-                    this.removeEntry(board, identifier);
-                } else {
-                    final String line = lines.get(index);
-
-                    final Team team = this.getTeam(board, identifier);
-                    final String[] splitText = this.splitText(line);
-
-                    team.setPrefix(splitText[0]);
-                    team.setSuffix(splitText[1]);
-
-                    identifiers.add(identifier);
-                    objective.getScore(identifier).setScore(-index);
+            if (lines.size() - 1 < index) {
+                if (objective.getScore(identifier) == null) {
+                    break;
                 }
-            }
 
-            objective.setDisplayName(element.getTitle());
-            player.setScoreboard(board);
+                this.removeEntry(board, identifier);
+            } else {
+                final String line = lines.get(index);
+
+                final Team team = this.getTeam(board, identifier);
+                final String[] splitText = this.splitText(line);
+
+                team.setPrefix(splitText[0]);
+                team.setSuffix(splitText[1]);
+
+                identifiers.add(identifier);
+                objective.getScore(identifier).setScore(-index);
+            }
         }
+
+        objective.setDisplayName(element.getTitle());
+        player.setScoreboard(board);
     }
+
 
     /**
      * Clear the element from a player's scoreboard
@@ -95,7 +92,7 @@ public class ScoreboardAdapter {
      * @return the scoreboard
      */
     public Scoreboard getScoreboard(Player player) {
-        return player.getScoreboard() == null
+        return player.getScoreboard().equals(Bukkit.getScoreboardManager().getMainScoreboard())
                 ? Bukkit.getScoreboardManager().getNewScoreboard()
                 : player.getScoreboard();
     }
