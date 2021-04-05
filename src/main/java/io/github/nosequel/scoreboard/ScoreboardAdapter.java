@@ -95,7 +95,7 @@ public class ScoreboardAdapter {
      * @return the scoreboard
      */
     public Scoreboard getScoreboard(Player player) {
-        return player.getScoreboard() == null || player.getScoreboard().equals(Bukkit.getScoreboardManager().getMainScoreboard())
+        return player.getScoreboard() == null
                 ? Bukkit.getScoreboardManager().getNewScoreboard()
                 : player.getScoreboard();
     }
